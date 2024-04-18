@@ -1,3 +1,4 @@
+// Phonebook.js
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import Contacts from "../Contacts/Contacts";
@@ -16,20 +17,28 @@ class Phonebook extends Component {
         };
     }
 
-
-
-
     handleAddContact = () => {
-        const { name, number } = this.state;
+        const { name, number, contacts } = this.state;
         if (name.trim() !== '' && number.trim() !== '') {
-            const newContact = {
-                id: nanoid(),
-                contactName: name,
-                phoneNumber: number,
-            };
-            this.addContact(newContact);
-            this.setState({ name: '', number:'' }); 
+            const existingContact = contacts.find(contact => contact.contactName === name || contact.phoneNumber === number);
+            if (existingContact) {
+                alert('You already added this contact!');
+            } else {
+                const newContact = {
+                    id: nanoid(),
+                    contactName: name,
+                    phoneNumber: number,
+                };
+                this.addContact(newContact);
+            }
+            this.setState({ name: '', number: '' });
         }
+    };
+
+    handleDeleteContact = (id) => {
+        this.setState(prevState => ({
+            contacts: prevState.contacts.filter(contact => contact.id !== id)
+        }));
     };
 
     handleNameChange = (e) => {
@@ -40,6 +49,9 @@ class Phonebook extends Component {
         this.setState({ number: e.target.value });
     };
 
+    handleContactFilter = (e) => {
+        this.setState({ filter: e.target.value });
+    }
 
     addContact = (newContact) => {
         this.setState(prevState => ({
@@ -48,21 +60,19 @@ class Phonebook extends Component {
     };
 
     render() {
+        const { name, contacts, number, filter } = this.state;
 
-        const {name, contacts, number} = this.state
-   
-        
         return (
             <div className={style.phonebook}>  
                 <div className={style.addToContact}>
                     <h2>Name</h2>
                     <AddContactInput name={name} handleInputChange={this.handleNameChange}/>
                     <AddNumberInput number={number}  handleNumberChange={this.handleNumberChange}/>
-                        <button onClick={this.handleAddContact}>Add Contact</button>
+                    <button onClick={this.handleAddContact}>Add Contact</button>
                 </div>
 
                 <div>
-                    <Contacts contacts={contacts} number={number}/>
+                    <Contacts contacts={contacts} number={number} filter={filter} handleDeleteContact={this.handleDeleteContact} handleContactFilter={this.handleContactFilter}/>
                 </div>
           
             </div>

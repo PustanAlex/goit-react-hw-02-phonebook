@@ -3,22 +3,11 @@ import Phonebook from "./Phonebook/Phonebook";
 
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            contacts: [],
-            name: '',
-            number: '',
-            filter: '',
-        };
-    }
-
-
 
     render() {
         return (
             <div className="main">
-                <Phonebook addContact={this.addContact} />
+                <Phonebook />
             </div>
         );
     }

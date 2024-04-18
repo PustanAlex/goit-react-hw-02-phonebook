@@ -1,4 +1,4 @@
-// Contacts.js
+
 import React, { Component } from 'react';
 import style from './Contacts.module.css';
 import ContactFilter from '../ContactFilter/ContactFilter';

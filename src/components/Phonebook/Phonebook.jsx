@@ -1,4 +1,4 @@
-// Phonebook.js
+
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
 import Contacts from "../Contacts/Contacts";

@@ -17,7 +17,7 @@ class ContactFilter extends Component {
                     title="Contact Filter"
                     required
                     onChange={handleContactFilter}
-                    placeholder="Add contact"
+                    placeholder="Search contact"
                 />
             </div>
         );

@@ -10,9 +10,9 @@ class Phonebook extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            contacts: [],
-            number: '',
+            name: localStorage.getItem('nameChange') || '',
+            contacts: JSON.parse(localStorage.getItem('contacts')) || [],
+            number: localStorage.getItem('numberChange') || '',
             filter: ''
         };
     }
@@ -36,17 +36,21 @@ class Phonebook extends Component {
     };
 
     handleDeleteContact = (id) => {
-        this.setState(prevState => ({
-            contacts: prevState.contacts.filter(contact => contact.id !== id)
-        }));
+        const {contacts} = this.state
+        const updatedContactList = contacts.filter(contact => contact.id !== id)
+        this.setState({contacts: updatedContactList})
+        localStorage.setItem('contacts', JSON.stringify(updatedContactList));
     };
 
     handleNameChange = (e) => {
+      
         this.setState({ name: e.target.value });
+        localStorage.setItem('nameChange', e.target.value)
     };
 
     handleNumberChange = (e) => {
         this.setState({ number: e.target.value });
+        localStorage.setItem('numberChange', e.target.value)
     };
 
     handleContactFilter = (e) => {
@@ -54,9 +58,13 @@ class Phonebook extends Component {
     }
 
     addContact = (newContact) => {
-        this.setState(prevState => ({
-            contacts: [...prevState.contacts, newContact]
-        }));
+        const { contacts } = this.state;
+        const updatedContacts = [...contacts, newContact];
+        this.setState({ contacts: updatedContacts });
+        
+        localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+        localStorage.setItem('nameChange', '');
+        localStorage.setItem('numberChange', '');
     };
 
     render() {
